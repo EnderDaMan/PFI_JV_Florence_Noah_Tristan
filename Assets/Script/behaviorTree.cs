@@ -70,46 +70,32 @@ public class Selector : Node
 
     public override NodeState Evaluate()
     {
-        foreach (Node n in children)
+        foreach (Node n in this.children)
         {
-            NodeState localstate = n.Evaluate();
-            switch (localstate)
-            {
-                case NodeState.Failure:
-                    continue;
-                case NodeState.Success:
-                case NodeState.Running:
-                    state = localstate;
-                    return state;
-            }
+            state = n.Evaluate();
+            if (state != NodeState.Failure)
+                return state;
         }
+
         state = NodeState.Failure;
-        return state;
+        return NodeState.Failure;
     }
 }
 
 public class Sequence : Node
 {
     public Sequence(List<Node> n) : base(n) { }
-
     public override NodeState Evaluate()
     {
-        foreach (Node n in children)
+        foreach (Node n in this.children)
         {
-
-            NodeState localstate = n.Evaluate();
-            switch (localstate)
-            {
-                case NodeState.Success:
-                    continue;
-                case NodeState.Failure:
-                case NodeState.Running:
-                    state = localstate;
-                    return state;
-            }
+            state = n.Evaluate();
+            if (state == NodeState.Running)
+                return NodeState.Running;
+            if (state == NodeState.Failure)
+                return NodeState.Failure;
         }
-        state = NodeState.Success;
-        return state;
+        return NodeState.Success;
     }
 }
 
@@ -175,13 +161,15 @@ public class GoToTarget : Node
         else
             agent.transform.rotation = new Quaternion(0, 0, 0, 0);
 
-        if (agent.remainingDistance <= agent.stoppingDistance)
-        {
-            state = NodeState.Success;
-            return state;
-        }
+        
+        if (agent.SetDestination(agent.destination))
+            state = NodeState.Running;
+        else
+            state = NodeState.Failure;
 
-        state = NodeState.Running;
+        if (agent.remainingDistance <= agent.stoppingDistance)
+            state = NodeState.Success;
+
         return state;
     }
 }
@@ -213,7 +201,8 @@ public class Attack : Node
 {
     Transform target;
     enemyAnimationComponent enemyAnimationComponent;
-
+    float attackCooldown = 2;
+    float realCooldown = 0;
     public Attack(Transform target, enemyAnimationComponent enemyAnimationComponent)
     {
         this.target = target;
@@ -222,12 +211,17 @@ public class Attack : Node
 
     public override NodeState Evaluate()
     {
-        Debug.Log(1);
         state = NodeState.Success;
 
-        enemyAnimationComponent.AttackAnimation();
-
-        target.GetComponent<playerMoveComponent>().GetHit();
+        if(realCooldown >= attackCooldown)
+        {
+            realCooldown = 0;
+            enemyAnimationComponent.AttackAnimation();
+            target.GetComponent<playerMoveComponent>().GetHit();
+        }
+        else
+            realCooldown += Time.deltaTime;
+        
 
         return state;
     }

@@ -27,9 +27,9 @@ public class enemyComponent : MonoBehaviour
     {
         Node l1 = new IsWithinRange(target, transform, detectionRange);
         Node l2 = new GoToTarget(target, agent);
-        Node seq1 = new Selector(new List<Node>() { l1, l2 });
+        Node seq1 = new Sequence(new List<Node>() { l1, l2 });
         Node l3 = new Attack(target, enemyAnimationComponent);
-        Node sel2 = new Selector(new List<Node>() { seq1, l3 });
+        Node sel2 = new Sequence(new List<Node>() { seq1, l3 });
         root = sel2; ;
     }
 
@@ -41,7 +41,6 @@ public class enemyComponent : MonoBehaviour
 
     public void GetHit()
     {
-        Debug.Log(1);
         if(health <= 0)
             StartCoroutine(DeathCoroutine());
 
