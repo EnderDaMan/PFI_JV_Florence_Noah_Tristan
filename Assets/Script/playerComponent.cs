@@ -253,6 +253,7 @@ public class playerMoveComponent : MonoBehaviour
 
         if (Anim == "Attack")
         {
+            stateOverride = true;
             StartCoroutine(WaitStateChange("Idle", .8f));
         }
     }
