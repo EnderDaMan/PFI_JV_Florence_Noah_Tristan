@@ -23,9 +23,11 @@ public class playerMoveComponent : MonoBehaviour
     public bool isAttacking = false;
     public bool enemyAttacking = false;
 
-    float attackCooldown = 1.5f;
+    float attackCooldown = 1f;
     float elapsedTime;
 
+    private string currentState;
+    
     PhotonView view;
 
     // Start is called before the first frame update
@@ -48,6 +50,8 @@ public class playerMoveComponent : MonoBehaviour
         MoveAction.canceled += _ => direction = Vector2.zero;
         JumpAction.performed += _ => Jump();
         AttackAction.performed += _ => Attack();
+        
+
     }
 
     private void OnDisable()
@@ -75,9 +79,9 @@ public class playerMoveComponent : MonoBehaviour
         {
             if (transform.position.y <= -1.40f)
             {
-                Animator.StopPlayback();
-                Animator.SetTrigger("Jump");
-                GetComponent<Rigidbody>().AddForce(Vector2.up * 7f, ForceMode.Impulse);
+                //Animator.StopPlayback();
+                ChangeAnimationState("jump");
+                GetComponent<Rigidbody>().AddForce(Vector2.up * 8f, ForceMode.Impulse);
             }
         }
     }
@@ -89,7 +93,7 @@ public class playerMoveComponent : MonoBehaviour
             if (elapsedTime >= attackCooldown)
             {
                 Animator.StopPlayback();
-                Animator.SetTrigger("Attack");
+                ChangeAnimationState("Attack", true);
                 elapsedTime = 0;
                 StartCoroutine(AttackCoroutine());
             }
@@ -97,20 +101,22 @@ public class playerMoveComponent : MonoBehaviour
         
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(view.IsMine)
-        {
-            if (collision.transform.tag == "Enemy" && isAttacking)
-                collision.gameObject.GetComponent<enemyComponent>().GetHit();
-        }
-    }
+
+    // private void OnCollisionEnter(Collision collision)
+    // {
+    //     if(view.IsMine)
+    //     {
+    //         if (collision.transform.tag == "Enemy" && isAttacking)
+    //             collision.gameObject.GetComponent<enemyComponent>().GetHit();
+    //     }
+    // }
 
     public void GetHit()
     {
         if (view.IsMine)
         {
-            Animator.SetTrigger("GetHit");
+            ChangeAnimationState("Hurt", true);
+            //Animator.SetTrigger("GetHit");
             health -= 5;
         }
         
@@ -122,7 +128,7 @@ public class playerMoveComponent : MonoBehaviour
         {
             isAttacking = true;
 
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(1f);
 
             isAttacking = false;
         }
@@ -134,29 +140,59 @@ public class playerMoveComponent : MonoBehaviour
 
         if (direction.x == 0)
         {
-            Animator.SetBool("IsRunning", false);
+            //Animator.SetBool("IsRunning", false);
+           ChangeAnimationState("Idle");
+               
             isOnEdgeLeft = false;
             isOnEdgeRight = false;
         }
         else
         {
-            if (direction.x == 1 && transform.position.x >= 4.10f)
+            if (direction.x == 1 && transform.position.x >= 8.10f)
                 isOnEdgeRight = true;
 
-            if (direction.x == -1 && transform.position.x <= -4.10f)
+            if (direction.x == -1 && transform.position.x <= -8.10f)
                 isOnEdgeLeft = true;
 
-            if (direction.x == 1 && transform.position.x <= 4.10f)
+            if (direction.x == 1 && transform.position.x <= 8.10f)
             {
                 transform.Translate(Time.deltaTime * speed * Vector2.right);
                 transform.rotation = Quaternion.Euler(0, 0, 0);
             }
-            else if (direction.x == -1 && transform.position.x >= -4.10f)
+            else if (direction.x == -1 && transform.position.x >= -8.10f)
             {
                 transform.Translate(Time.deltaTime * speed * Vector2.right);
                 transform.rotation = Quaternion.Euler(0, 180, 0);
             }
-            Animator.SetBool("IsRunning", true);
+            ChangeAnimationState("Run");
         }
+    }
+
+    private bool stateOverride = false;
+    private void ChangeAnimationState(string state, bool statePriority = false)
+    {
+        if (state == currentState || stateOverride) return;
+        
+        Animator.Play(state);
+
+        currentState = state;
+
+        stateOverride = statePriority;
+        
+        if (statePriority)
+            StartCoroutine(WaitStateChange("Idle", .8f));
+
+    }
+
+    private IEnumerator WaitStateChange(string nextState, float waitTime)
+    {
+        string originalState = currentState;
+        
+        yield return new WaitForSeconds(waitTime);
+
+        stateOverride = false;
+        
+        if (currentState == originalState)
+            ChangeAnimationState(nextState);
     }
 }

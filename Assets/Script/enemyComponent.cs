@@ -14,7 +14,7 @@ public class enemyComponent : MonoBehaviour
     NavMeshAgent agent;
     Node root;
 
-    float health = 30;
+    [SerializeField] float health = 30;
 
     // Start is called before the first frame update
     void Start()
