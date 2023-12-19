@@ -9,11 +9,11 @@ using static UnityEngine.GraphicsBuffer;
 
 public class enemyComponent : MonoBehaviour
 {
-    [SerializeField] Transform target;
+    public Transform target;
     [SerializeField] enemyAnimationComponent enemyAnimationComponent;
     [SerializeField] float detectionRange = 3;
-    TextMeshPro text;
-    Animator skullAnimator;
+    public TextMeshPro text;
+    public Animator skullAnimator;
     NavMeshAgent agent;
     Node root;
 
@@ -22,6 +22,7 @@ public class enemyComponent : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         text = GameObject.FindGameObjectWithTag("killcount").GetComponent<TextMeshPro>();
         skullAnimator = GameObject.FindGameObjectWithTag("skull").GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();

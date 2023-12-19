@@ -870,7 +870,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player1Prebaf: {fileID: 9030775799795015986, guid: 320e671021f783e48a98c2eef22789cb, type: 3}
   player2Prebaf: {fileID: 9030775799795015986, guid: 93f1c42c8be35a044ad3bb3108816dbc, type: 3}
-  spawnPoint: {x: -1.725423, y: -2, z: 10}
+  enemyPrefab: {fileID: 2350435888251667277, guid: 64e0bf9a3ace56a48a21a1cfc1223939, type: 3}
+  spawnPoint: {x: -1.725423, y: -2, z: 10.1}
+  spawnPointEnemy: {x: -1.83, y: 0.8, z: 10.1}
 --- !u!4 &963631822
 Transform:
   m_ObjectHideFlags: 0
@@ -4303,7 +4305,7 @@ Transform:
   m_GameObject: {fileID: 1883542015}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.1279883, y: 0.822866, z: 0}
+  m_LocalPosition: {x: -1.83, y: 0.822866, z: 0}
   m_LocalScale: {x: 2.1911452, y: 2.9836762, z: 2.9836762}
   m_ConstrainProportionsScale: 0
   m_Children: []
