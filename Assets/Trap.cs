@@ -26,7 +26,9 @@ public class Trap : MonoBehaviour
             collision.gameObject.GetComponent<enemyComponent>().Death();
 
         if (collision.transform.tag == "Player")
-            collision.gameObject.GetComponent<playerMoveComponent>().health = -1;
+        {
+            collision.gameObject.GetComponent<playerMoveComponent>().GetHit(50f); 
+        }
     }
 
     // Update is called once per frame

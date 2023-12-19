@@ -89,7 +89,7 @@ public class playerMoveComponent : MonoBehaviour
 
             bool worked = false;
             RaycastHit hit;
-            if (Physics.Raycast(rayOrigin, Vector3.down, out hit, 1f))
+            if (Physics.Raycast(rayOrigin, Vector3.down, out hit, 1.5f))
             {
                 worked = true;
                 
@@ -99,7 +99,7 @@ public class playerMoveComponent : MonoBehaviour
             {
                 //Animator.StopPlayback();
                 ChangeAnimationState("jump");
-                GetComponent<Rigidbody>().AddForce(Vector2.up * 7f, ForceMode.Impulse);
+                GetComponent<Rigidbody>().AddForce(Vector2.up * 8f, ForceMode.Impulse);
                 view.RPC("TriggerAnim", RpcTarget.All, "jump");
             }
         }
@@ -122,15 +122,14 @@ public class playerMoveComponent : MonoBehaviour
     }
 
 
-    public void GetHit()
+    public void GetHit(float dmg = 5f)
     {
         if (view.IsMine)
         {
             ChangeAnimationState("Hurt", true);
             view.RPC("TriggerAnim", RpcTarget.All, "Hurt");
-            health -= 5;
+            health -= dmg;
         }
-        
     }
     
 
