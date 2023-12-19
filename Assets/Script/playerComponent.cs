@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
+using Photon.Pun;
 
 public class playerMoveComponent : MonoBehaviour
 {
@@ -25,7 +26,13 @@ public class playerMoveComponent : MonoBehaviour
     float attackCooldown = 1.5f;
     float elapsedTime;
 
+    PhotonView view;
+
     // Start is called before the first frame update
+    private void Start()
+    {
+        view = GetComponent<PhotonView>();
+    }
     void Awake()
     {
         Animator = GetComponent<Animator>();
@@ -55,6 +62,74 @@ public class playerMoveComponent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (view.IsMine)
+        {
+            Move();
+        }
+        
+    }
+
+    void Jump()
+    {
+        if (view.IsMine)
+        {
+            if (transform.position.y <= -1.40f)
+            {
+                Animator.StopPlayback();
+                Animator.SetTrigger("Jump");
+                GetComponent<Rigidbody>().AddForce(Vector2.up * 7f, ForceMode.Impulse);
+            }
+        }
+    }
+
+    void Attack()
+    {
+        if (view.IsMine)
+        {
+            if (elapsedTime >= attackCooldown)
+            {
+                Animator.StopPlayback();
+                Animator.SetTrigger("Attack");
+                elapsedTime = 0;
+                StartCoroutine(AttackCoroutine());
+            }
+        }
+        
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(view.IsMine)
+        {
+            if (collision.transform.tag == "Enemy" && isAttacking)
+                collision.gameObject.GetComponent<enemyComponent>().GetHit();
+        }
+    }
+
+    public void GetHit()
+    {
+        if (view.IsMine)
+        {
+            Animator.SetTrigger("GetHit");
+            health -= 5;
+        }
+        
+    }
+
+    IEnumerator AttackCoroutine()
+    {
+        if (view.IsMine)
+        {
+            isAttacking = true;
+
+            yield return new WaitForSeconds(2);
+
+            isAttacking = false;
+        }
+    }
+
+    public void Move()
+    {
         elapsedTime += Time.deltaTime;
 
         if (direction.x == 0)
@@ -83,48 +158,5 @@ public class playerMoveComponent : MonoBehaviour
             }
             Animator.SetBool("IsRunning", true);
         }
-    }
-
-    void Jump()
-    {
-        if (transform.position.y <= -1.40f)
-        {
-            Animator.StopPlayback();
-            Animator.SetTrigger("Jump");
-            GetComponent<Rigidbody>().AddForce(Vector2.up * 7f, ForceMode.Impulse);
-        }
-    }
-
-    void Attack()
-    {
-        if (elapsedTime >= attackCooldown)
-        {
-            Animator.StopPlayback();
-            Animator.SetTrigger("Attack");
-            elapsedTime = 0;
-            StartCoroutine(AttackCoroutine());
-        }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        Debug.Log($"{collision.transform.tag == "Enemy"} && {isAttacking}");
-        if (collision.transform.tag == "Enemy" && isAttacking)
-            collision.gameObject.GetComponent<enemyComponent>().GetHit();
-    }
-
-    public void GetHit()
-    {
-        Animator.SetTrigger("GetHit");
-        health -= 5;
-    }
-
-    IEnumerator AttackCoroutine()
-    {
-        isAttacking = true;
-
-        yield return new WaitForSeconds(2);
-
-        isAttacking = false;
     }
 }
