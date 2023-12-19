@@ -196,8 +196,6 @@ public class playerMoveComponent : MonoBehaviour
             ChangeAnimationState(nextState);
              view.RPC("TriggerAnim", RpcTarget.All, "Idle");
         }
-            
-
     }
     
     [PunRPC]
