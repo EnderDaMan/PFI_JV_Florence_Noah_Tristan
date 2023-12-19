@@ -10,19 +10,20 @@ public class SpawnPlayersComponent : MonoBehaviour
 
     [SerializeField] Vector3 spawnPoint;
 
-    bool player1Connected = false;
-    bool player2Connected = false;  
-
     private void Start()
     {
-        if(PhotonNetwork.CurrentRoom.PlayerCount == 1)
-        { 
-            PhotonNetwork.Instantiate(player1Prebaf.name, spawnPoint, Quaternion.identity);
-        }
-        if(PhotonNetwork.CurrentRoom.PlayerCount == 2)
+        if(PhotonNetwork.IsConnected)
         {
-            PhotonNetwork.Instantiate(player2Prebaf.name, spawnPoint, Quaternion.identity);
+            if(PhotonNetwork.InRoom)
+            {
+                if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
+                    PhotonNetwork.Instantiate(player2Prebaf.name, spawnPoint, Quaternion.identity);
+                else
+                    PhotonNetwork.Instantiate(player1Prebaf.name, spawnPoint, Quaternion.identity);
+
+            }
         }
-        
+       
+
     }
 }
