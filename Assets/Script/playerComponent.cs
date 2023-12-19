@@ -91,12 +91,8 @@ public class playerMoveComponent : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(rayOrigin, Vector3.down, out hit, 1f))
             {
-                Debug.Log("OORAOS");
                 worked = true;
-                if (Vector3.Dot(hit.normal, Vector3.up) > 0.9f)
-                {
-                    Debug.Log("WORK???");
-                }
+                
             }
 
             if (worked || transform.position.y <= -1.40f)

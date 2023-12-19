@@ -38,7 +38,7 @@ public class SpawnPlayersComponent : MonoBehaviour
     {
         elapsedTime += Time.deltaTime;
 
-        if(elapsedTime < spawnCooldown)
+        if(elapsedTime > spawnCooldown)
         {
             Instantiate(enemyPrefab, spawnPointEnemy, Quaternion.identity);
             elapsedTime = 0;
