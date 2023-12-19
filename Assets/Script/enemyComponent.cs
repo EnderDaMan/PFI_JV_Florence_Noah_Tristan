@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 using static UnityEngine.GraphicsBuffer;
@@ -11,6 +12,8 @@ public class enemyComponent : MonoBehaviour
     [SerializeField] Transform target;
     [SerializeField] enemyAnimationComponent enemyAnimationComponent;
     [SerializeField] float detectionRange = 3;
+    TextMeshPro text;
+    Animator skullAnimator;
     NavMeshAgent agent;
     Node root;
 
@@ -19,6 +22,8 @@ public class enemyComponent : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        text = GameObject.FindGameObjectWithTag("killcount").GetComponent<TextMeshPro>();
+        skullAnimator = GameObject.FindGameObjectWithTag("skull").GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         SetupTree();
     }
@@ -42,7 +47,14 @@ public class enemyComponent : MonoBehaviour
     public void GetHit()
     {
         if(health <= 0)
+        {
+            int killCount;
+            int.TryParse(text.GetParsedText(), out killCount);
+            killCount++;
+            text.text = killCount.ToString();
+            skullAnimator.SetTrigger("Move");
             StartCoroutine(DeathCoroutine());
+        }
 
         health -= 10;
 
