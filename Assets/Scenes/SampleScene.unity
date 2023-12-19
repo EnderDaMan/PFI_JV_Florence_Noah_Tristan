@@ -869,7 +869,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player1Prebaf: {fileID: 9030775799795015986, guid: 320e671021f783e48a98c2eef22789cb, type: 3}
-  p1SpawnPoint: {x: -1.725423, y: -2.01, z: 10.1}
+  player2Prebaf: {fileID: 0}
+  spawnPoint: {x: 0, y: 0, z: 0}
 --- !u!4 &963631822
 Transform:
   m_ObjectHideFlags: 0
@@ -2794,7 +2795,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02add9f00f26d144e8ba115c6f23edc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  speed: 2
   Obstacles:
   - {fileID: 3405381426040465413, guid: c4dd90d7808328c44bbf8e9b517ba6ab, type: 3}
 --- !u!1 &1691795434
@@ -4864,7 +4865,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02add9f00f26d144e8ba115c6f23edc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  speed: 2
   Obstacles:
   - {fileID: 3405381426040465413, guid: c4dd90d7808328c44bbf8e9b517ba6ab, type: 3}
 --- !u!1 &2065280869
