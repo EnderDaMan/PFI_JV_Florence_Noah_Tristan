@@ -69,7 +69,7 @@ public class batComponent : MonoBehaviour
             frame = (frame + 1) % imagesNB;
             elapsedTime -= cooldown;
             if (transform.position.x >= 12)
-                transform.position = new Vector3(- 8, transform.position.y, transform.position.z);
+                transform.position = new Vector3(- 10, transform.position.y, transform.position.z);
             transform.Translate(Vector3.right * 0.5f);
         }
     }
