@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 using Photon.Pun;
+using UnityEngine.SceneManagement;
 
 public class playerMoveComponent : MonoBehaviour
 {
@@ -70,15 +71,12 @@ public class playerMoveComponent : MonoBehaviour
     {
         if (health <= 0)
         {
-            view.RPC("TriggerAnim", RpcTarget.All, "Death");
-            currentState = "Death";
-            Animator.Play("Death");
+            StartCoroutine(DeathCoroutine());
         }
         else if (view.IsMine)
         {
             Move();
         }
-        
     }
 
     void Jump()
@@ -120,7 +118,6 @@ public class playerMoveComponent : MonoBehaviour
         }
         
     }
-
 
     public void GetHit(float dmg = 5f)
     {
@@ -256,5 +253,14 @@ public class playerMoveComponent : MonoBehaviour
             stateOverride = true;
             StartCoroutine(WaitStateChange("Idle", .8f));
         }
+    }
+
+    IEnumerator DeathCoroutine()
+    {
+        view.RPC("TriggerAnim", RpcTarget.All, "Death");
+        currentState = "Death";
+        Animator.Play("Death");
+        yield return new WaitForSeconds(2);
+        SceneManager.LoadScene("LoadingScene");
     }
 }
