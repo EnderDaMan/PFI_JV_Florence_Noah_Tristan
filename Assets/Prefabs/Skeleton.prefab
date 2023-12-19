@@ -73,6 +73,8 @@ MonoBehaviour:
   target: {fileID: 0}
   enemyAnimationComponent: {fileID: 4343665345979015663}
   detectionRange: 20
+  text: {fileID: 0}
+  skullAnimator: {fileID: 0}
   health: 20
 --- !u!65 &7568030132734341163
 BoxCollider:
@@ -120,7 +122,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 120
   m_CollisionDetection: 0
 --- !u!1 &6198226096253985608
 GameObject:
