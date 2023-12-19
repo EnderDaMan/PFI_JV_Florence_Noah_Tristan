@@ -27,7 +27,7 @@ public class playerMoveComponent : MonoBehaviour
     float elapsedTime;
 
     private string currentState;
-    
+
     PhotonView view;
 
     // Start is called before the first frame update
@@ -50,7 +50,7 @@ public class playerMoveComponent : MonoBehaviour
         MoveAction.canceled += _ => direction = Vector2.zero;
         JumpAction.performed += _ => Jump();
         AttackAction.performed += _ => Attack();
-        
+
 
     }
 
@@ -72,7 +72,7 @@ public class playerMoveComponent : MonoBehaviour
         {
             Move();
         }
-        
+
     }
 
     void Jump()
@@ -97,12 +97,12 @@ public class playerMoveComponent : MonoBehaviour
             {
                 Animator.StopPlayback();
                 ChangeAnimationState("Attack", true);
-             view.RPC("TriggerAnim", RpcTarget.All, "Attack");
+                view.RPC("TriggerAnim", RpcTarget.All, "Attack");
                 elapsedTime = 0;
                 StartCoroutine(AttackCoroutine());
             }
         }
-        
+
     }
 
 
@@ -112,11 +112,11 @@ public class playerMoveComponent : MonoBehaviour
         {
             ChangeAnimationState("Hurt", true);
             view.RPC("TriggerAnim", RpcTarget.All, "Hurt");
-           // view.RPC("TriggerGetHit", RpcTarget.All);
+            // view.RPC("TriggerGetHit", RpcTarget.All);
             //Animator.SetTrigger("GetHit");
             health -= 5;
         }
-        
+
     }
 
     IEnumerator AttackCoroutine()
@@ -138,9 +138,9 @@ public class playerMoveComponent : MonoBehaviour
         if (direction.x == 0)
         {
             //Animator.SetBool("IsRunning", false);
-           ChangeAnimationState("Idle");
-               
-             view.RPC("TriggerAnim", RpcTarget.All, "Idle");
+            ChangeAnimationState("Idle");
+
+            view.RPC("TriggerAnim", RpcTarget.All, "Idle");
             isOnEdgeLeft = false;
             isOnEdgeRight = false;
         }
@@ -171,13 +171,13 @@ public class playerMoveComponent : MonoBehaviour
     private void ChangeAnimationState(string state, bool statePriority = false)
     {
         if (state == currentState || stateOverride) return;
-        
+
         Animator.Play(state);
 
         currentState = state;
 
         stateOverride = statePriority;
-        
+
         if (statePriority)
             StartCoroutine(WaitStateChange("Idle", .8f));
 
@@ -186,7 +186,7 @@ public class playerMoveComponent : MonoBehaviour
     private IEnumerator WaitStateChange(string nextState, float waitTime)
     {
         string originalState = currentState;
-        
+
         yield return new WaitForSeconds(waitTime);
 
         stateOverride = false;
@@ -194,19 +194,19 @@ public class playerMoveComponent : MonoBehaviour
         if (currentState == originalState)
         {
             ChangeAnimationState(nextState);
-             view.RPC("TriggerAnim", RpcTarget.All, "Run");
+            view.RPC("TriggerAnim", RpcTarget.All, "Run");
         }
-            
+
 
     }
-    
+
     [PunRPC]
     private void TriggerJump()
     {
         Animator.SetTrigger("Jump");
     }
     [PunRPC]
-    private void SetIsRunning(bool isRunning) 
+    private void SetIsRunning(bool isRunning)
     {
         Animator.SetBool("IsRunning", isRunning);
     }
@@ -222,7 +222,7 @@ public class playerMoveComponent : MonoBehaviour
     }
 
     [PunRPC]
-    private void TriggerAnim(string Anim) 
+    private void TriggerAnim(string Anim)
     {
         if (Anim == currentState || stateOverride) return;
 

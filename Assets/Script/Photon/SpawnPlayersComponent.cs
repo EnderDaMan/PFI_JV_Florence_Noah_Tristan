@@ -11,6 +11,7 @@ public class SpawnPlayersComponent : MonoBehaviour
 
     private void Start()
     {
+        player1Prebaf.layer = 3;
         PhotonNetwork.Instantiate(player1Prebaf.name, p1SpawnPoint, Quaternion.identity);
     }
 }
