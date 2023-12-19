@@ -78,6 +78,7 @@ public class enemyComponent : MonoBehaviour
 
     public void Death()
     {
+        health = -1;
         int killCount;
             
         if (text && skullAnimator)
