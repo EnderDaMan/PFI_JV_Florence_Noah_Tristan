@@ -871,7 +871,7 @@ MonoBehaviour:
   player2Prebaf: {fileID: 9030775799795015986, guid: 93f1c42c8be35a044ad3bb3108816dbc, type: 3}
   enemyPrefab: {fileID: 3552858998764911462, guid: dfbda446b90e05046b293c0a9789c969, type: 3}
   spawnPoint: {x: -1.725423, y: -2, z: 10.1}
-  spawnPointEnemy: {x: -1.83, y: 0.8, z: 10.1}
+  spawnPointEnemy: {x: -8.47, y: 0.8, z: 10.1}
 --- !u!4 &963631822
 Transform:
   m_ObjectHideFlags: 0
