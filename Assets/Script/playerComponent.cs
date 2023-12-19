@@ -194,7 +194,7 @@ public class playerMoveComponent : MonoBehaviour
         if (currentState == originalState)
         {
             ChangeAnimationState(nextState);
-             view.RPC("TriggerAnim", RpcTarget.All, "Run");
+             view.RPC("TriggerAnim", RpcTarget.All, "Idle");
         }
             
 
@@ -227,5 +227,10 @@ public class playerMoveComponent : MonoBehaviour
         if (Anim == currentState || stateOverride) return;
 
         Animator.Play(Anim);
+
+        if (Anim == "Attack")
+        {
+            StartCoroutine(WaitStateChange("Idle", .8f));
+        }
     }
 }
