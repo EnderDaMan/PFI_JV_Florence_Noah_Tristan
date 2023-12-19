@@ -190,7 +190,7 @@ public class IsWithinRange : Node
     public override NodeState Evaluate()
     {
         state = NodeState.Failure;
-        if (Vector3.Distance(self.position, target.position) <= detectionRange)
+        if (target && Vector3.Distance(self.position, target.position) <= detectionRange)
             state = NodeState.Success;
 
         return state;
@@ -202,6 +202,7 @@ public class Attack : Node
     Transform target;
     enemyAnimationComponent enemyAnimationComponent;
     float attackCooldown = 2;
+    float attackHitboxTime = 0;
     float realCooldown = 0;
     public Attack(Transform target, enemyAnimationComponent enemyAnimationComponent)
     {
@@ -213,14 +214,17 @@ public class Attack : Node
     {
         state = NodeState.Success;
 
-        if(realCooldown >= attackCooldown)
+        if(realCooldown >= attackCooldown && attackHitboxTime >= attackCooldown / 1.2)
         {
             realCooldown = 0;
             enemyAnimationComponent.AttackAnimation();
             target.GetComponent<playerMoveComponent>().GetHit();
         }
         else
+        {
+            attackHitboxTime += Time.deltaTime;
             realCooldown += Time.deltaTime;
+        }
         
 
         return state;

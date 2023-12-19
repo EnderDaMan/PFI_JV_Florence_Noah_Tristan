@@ -19,7 +19,7 @@ MonoBehaviour:
     AppIdVoice: 
     AppVersion: 
     UseNameServer: 1
-    FixedRegion: 
+    FixedRegion: cae
     Server: 
     Port: 0
     ProxyServer: 
@@ -44,6 +44,7 @@ MonoBehaviour:
   - TriggerJump
   - TriggerGetHit
   - SetIsRunning
+  - TriggerAnim
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
