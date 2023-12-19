@@ -9,11 +9,11 @@ using static UnityEngine.GraphicsBuffer;
 
 public class enemyComponent : MonoBehaviour
 {
-    [SerializeField] Transform target;
+    public Transform target;
     [SerializeField] enemyAnimationComponent enemyAnimationComponent;
     [SerializeField] float detectionRange = 3;
-    TextMeshPro text;
-    Animator skullAnimator;
+    public TextMeshPro text;
+    public Animator skullAnimator;
     NavMeshAgent agent;
     Node root;
 
