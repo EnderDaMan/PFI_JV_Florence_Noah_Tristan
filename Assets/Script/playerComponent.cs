@@ -57,6 +57,8 @@ public class playerMoveComponent : MonoBehaviour
         AttackAction.Disable();
         MoveAction.performed -= (InputAction.CallbackContext context) => direction = context.ReadValue<Vector2>();
         MoveAction.canceled -= _ => direction = Vector2.zero;
+        JumpAction.performed -= _ => Jump();
+        AttackAction.performed -= _ => Attack();
     }
 
     // Update is called once per frame
@@ -76,7 +78,8 @@ public class playerMoveComponent : MonoBehaviour
             if (transform.position.y <= -1.40f)
             {
                 Animator.StopPlayback();
-                Animator.SetTrigger("Jump");
+                view.RPC("TriggerJump", RpcTarget.All);
+                
                 GetComponent<Rigidbody>().AddForce(Vector2.up * 7f, ForceMode.Impulse);
             }
         }
@@ -89,7 +92,7 @@ public class playerMoveComponent : MonoBehaviour
             if (elapsedTime >= attackCooldown)
             {
                 Animator.StopPlayback();
-                Animator.SetTrigger("Attack");
+                view.RPC("TriggerAttack", RpcTarget.All);
                 elapsedTime = 0;
                 StartCoroutine(AttackCoroutine());
             }
@@ -110,8 +113,8 @@ public class playerMoveComponent : MonoBehaviour
     {
         if (view.IsMine)
         {
-            Animator.SetTrigger("GetHit");
-            health -= 5;
+            view.RPC("TriggerGetHit", RpcTarget.All);
+            health -= 5; 
         }
         
     }
@@ -134,7 +137,7 @@ public class playerMoveComponent : MonoBehaviour
 
         if (direction.x == 0)
         {
-            Animator.SetBool("IsRunning", false);
+            view.RPC("SetIsRunning", RpcTarget.All, false);
             isOnEdgeLeft = false;
             isOnEdgeRight = false;
         }
@@ -156,7 +159,28 @@ public class playerMoveComponent : MonoBehaviour
                 transform.Translate(Time.deltaTime * speed * Vector2.right);
                 transform.rotation = Quaternion.Euler(0, 180, 0);
             }
-            Animator.SetBool("IsRunning", true);
+            view.RPC("SetIsRunning", RpcTarget.All, true);
         }
+    }
+
+    [PunRPC]
+    private void TriggerJump()
+    {
+        Animator.SetTrigger("Jump");
+    }
+    [PunRPC]
+    private void SetIsRunning(bool isRunning) 
+    {
+        Animator.SetBool("IsRunning", isRunning);
+    }
+    [PunRPC]
+    private void TriggerAttack()
+    {
+        Animator.SetTrigger("Attack");
+    }
+    [PunRPC]
+    private void TriggerGetHit()
+    {
+        Animator.SetTrigger("GetHit");
     }
 }
