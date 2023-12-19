@@ -83,13 +83,27 @@ public class playerMoveComponent : MonoBehaviour
 
     void Jump()
     {
-        if (view.IsMine)
+        if (view.IsMine && health > 0)
         {
-            if (transform.position.y <= -1.40f)
+            Vector3 rayOrigin = new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z);
+
+            bool worked = false;
+            RaycastHit hit;
+            if (Physics.Raycast(rayOrigin, Vector3.down, out hit, 1f))
+            {
+                Debug.Log("OORAOS");
+                worked = true;
+                if (Vector3.Dot(hit.normal, Vector3.up) > 0.9f)
+                {
+                    Debug.Log("WORK???");
+                }
+            }
+
+            if (worked || transform.position.y <= -1.40f)
             {
                 //Animator.StopPlayback();
                 ChangeAnimationState("jump");
-                GetComponent<Rigidbody>().AddForce(Vector2.up * 8f, ForceMode.Impulse);
+                GetComponent<Rigidbody>().AddForce(Vector2.up * 7f, ForceMode.Impulse);
                 view.RPC("TriggerAnim", RpcTarget.All, "jump");
             }
         }
@@ -97,7 +111,7 @@ public class playerMoveComponent : MonoBehaviour
 
     void Attack()
     {
-        if (view.IsMine)
+        if (view.IsMine && health > 0)
         {
             if (elapsedTime >= attackCooldown)
             {
@@ -130,7 +144,7 @@ public class playerMoveComponent : MonoBehaviour
         {
             isAttacking = true;
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(.8f);
 
             isAttacking = false;
         }
@@ -157,14 +171,25 @@ public class playerMoveComponent : MonoBehaviour
             if (direction.x == -1 && transform.position.x <= -8.10f)
                 isOnEdgeLeft = true;
 
+            float moveSpeed = speed;
+            
             if (direction.x == 1 && transform.position.x <= 8.10f)
             {
-                transform.Translate(Time.deltaTime * speed * Vector2.right);
+                if (transform.rotation != Quaternion.Euler(0, 0, 0))
+                {
+                    moveSpeed /= 5;
+                }
+                transform.Translate(Time.deltaTime * moveSpeed * Vector2.right);
                 transform.rotation = Quaternion.Euler(0, 0, 0);
+                
             }
             else if (direction.x == -1 && transform.position.x >= -8.10f)
             {
-                transform.Translate(Time.deltaTime * speed * Vector2.right);
+                if (transform.rotation != Quaternion.Euler(0, 180, 0))
+                {
+                    moveSpeed /= 5;
+                }
+                transform.Translate(Time.deltaTime * moveSpeed * Vector2.right);
                 transform.rotation = Quaternion.Euler(0, 180, 0);
             }
             ChangeAnimationState("Run");

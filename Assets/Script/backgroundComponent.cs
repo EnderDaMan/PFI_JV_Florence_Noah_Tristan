@@ -24,7 +24,7 @@ public class backgroundComponent : MonoBehaviour
         timePassed += Time.deltaTime;
         timeSinceSpeedInc -= Time.deltaTime;
 
-        if (timeSinceSpeedInc <= 0)
+        if (timeSinceSpeedInc <= 0 && speed < 8)
         {
             speed += .1f;
             if (timePassed >= 120)
@@ -45,7 +45,7 @@ public class backgroundComponent : MonoBehaviour
             TeleportAndSpawn("Ground", 19.90f);
     }
 
-    float minDistanceBetweenObstacles = 2.0f;
+    float minDistanceBetweenObstacles = 3.5f;
 
     void TeleportAndSpawn(string tilemapName, float tilemapWidth)
     {
@@ -81,6 +81,12 @@ public class backgroundComponent : MonoBehaviour
                 randomObstacle.transform.position = spawnPosition;
                 randomObstacle.transform.rotation = Quaternion.identity;
 
+                Transform skelly = randomObstacle.transform.Find("Skeleton");
+                if (skelly)
+                {
+                    skelly.position = new Vector3(skelly.position.x,skelly.position.y,GameObject.FindGameObjectWithTag("Player").transform.position.z);
+                }
+
                 // Add the spawned obstacle to the list
                 spawnedObstacles.Add(randomObstacle);
             }
@@ -89,7 +95,7 @@ public class backgroundComponent : MonoBehaviour
 
     Vector3 GetRandomSpawnPosition()
     {
-        float spawnX = Random.Range(transform.position.x, transform.position.x + 10f);
+        float spawnX = Random.Range(transform.position.x - 2f, transform.position.x + 7f);
         float spawnY = -2;
         float spawnZ = 0;
 

@@ -222,7 +222,7 @@ MonoBehaviour:
       m_Action: Attack
       m_Flags: 0
     m_Flags: 0
-  speed: 7
+  speed: 6.5
   health: 100
   direction: {x: 0, y: 0}
   isOnEdgeLeft: 0
@@ -327,7 +327,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.2015865, y: 0.33915672, z: 0.2}
+  m_Size: {x: 0.17, y: 0.31, z: 0.2}
   m_Center: {x: -0.07541672, y: -0.044466626, z: 0}
 --- !u!114 &8579668916537701010
 MonoBehaviour:
