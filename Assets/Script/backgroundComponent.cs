@@ -41,7 +41,7 @@ public class backgroundComponent : MonoBehaviour
         if (transform.name == "Mountains" && transform.position.x <= -13.43f)
             TeleportAndSpawn("Mountains", 13.43f);
 
-        if (transform.name == "Ground" && transform.position.x <= -19.90f)
+        if (transform.name == "Ground" && transform.position.x <= -17.50f)
             TeleportAndSpawn("Ground", 19.90f);
     }
 

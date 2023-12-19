@@ -12,7 +12,7 @@ public class enemyComponent : MonoBehaviour
     public Transform target;
     [SerializeField] enemyAnimationComponent enemyAnimationComponent;
     [SerializeField] float detectionRange = 3;
-    public TextMeshPro text;
+    //public TextMeshPro text;
     public Animator skullAnimator;
     NavMeshAgent agent;
     Node root;
@@ -29,8 +29,8 @@ public class enemyComponent : MonoBehaviour
         SetupTree();
 
         
-        if (GameObject.FindGameObjectWithTag("killcount"))
-            text = GameObject.FindGameObjectWithTag("killcount").GetComponent<TextMeshPro>();
+        /*if (GameObject.FindGameObjectWithTag("killcount"))
+            text = GameObject.FindGameObjectWithTag("killcount").GetComponent<TextMeshPro>();*/
         
         if (GameObject.FindGameObjectWithTag("skull"))
             skullAnimator = GameObject.FindGameObjectWithTag("skull").GetComponent<Animator>();
@@ -81,11 +81,11 @@ public class enemyComponent : MonoBehaviour
         health = -1;
         int killCount;
             
-        if (text && skullAnimator)
+        if (skullAnimator)
         {
-            int.TryParse(text.GetParsedText(), out killCount);
+            /*int.TryParse(text.GetParsedText(), out killCount);
             killCount++;
-            text.text = killCount.ToString();
+            text.text = killCount.ToString();*/
             skullAnimator.SetTrigger("Move");
         }
             

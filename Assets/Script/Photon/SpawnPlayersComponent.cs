@@ -11,7 +11,7 @@ public class SpawnPlayersComponent : MonoBehaviour
     [SerializeField] Vector3 spawnPoint;
     [SerializeField] Vector3 spawnPointEnemy;
 
-    float spawnCooldown = 5;
+    float spawnCooldown = 8;
     float elapsedTime = 0;
 
     private void Start()
