@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
 public class backgroundComponent : MonoBehaviour
@@ -49,27 +50,27 @@ public class backgroundComponent : MonoBehaviour
 
     void TeleportAndSpawn(string tilemapName, float tilemapWidth)
     {
-        transform.position = new Vector3(transform.position.x + tilemapWidth * 2, transform.position.y, transform.position.z);
+        transform.position = new Vector3(transform.position.x + tilemapWidth * 2, transform.position.y,
+            transform.position.z);
 
         // Remove old obstacles
         foreach (var obstacle in spawnedObstacles)
         {
             Destroy(obstacle);
         }
+
         spawnedObstacles.Clear();
 
         // Randomly spawn new obstacles
         if (tilemapName == "Ground" && Obstacles.Count > 0)
         {
-            int maxObstacles = Mathf.Min(Mathf.FloorToInt(timePassed / 30f) + 1, 4); // Max obstacles per chunk, gradually increasing
+            int maxObstacles =
+                Mathf.Min(Mathf.FloorToInt(timePassed / 30f) + 1, 4); // Max obstacles per chunk, gradually increasing
             int obstacleCount = Random.Range(1, maxObstacles + 1); // Random variation
 
             for (int i = 0; i < obstacleCount; i++)
             {
                 int randomIndex = Random.Range(0, Obstacles.Count);
-                GameObject randomObstacle = Instantiate(Obstacles[randomIndex]);
-
-                randomObstacle.transform.parent = groundTransform;
 
                 // Randomize spawn position with minimum distance constraint
                 Vector3 spawnPosition = GetRandomSpawnPosition();
@@ -78,19 +79,45 @@ public class backgroundComponent : MonoBehaviour
                     spawnPosition = GetRandomSpawnPosition();
                 }
 
-                randomObstacle.transform.position = spawnPosition;
-                randomObstacle.transform.rotation = Quaternion.identity;
+                GameObject randomObstacle = PlaceObstacle(GetRandomSpawnPosition(), Obstacles[randomIndex]);
+
 
                 Transform skelly = randomObstacle.transform.Find("Skeleton");
                 if (skelly)
                 {
-                    skelly.position = new Vector3(skelly.position.x,skelly.position.y,GameObject.FindGameObjectWithTag("Player").transform.position.z);
+                    skelly.position = new Vector3(skelly.position.x, skelly.position.y,
+                        GameObject.FindGameObjectWithTag("Player").transform.position.z);
                 }
 
                 // Add the spawned obstacle to the list
                 spawnedObstacles.Add(randomObstacle);
             }
         }
+    }
+
+    GameObject PlaceObstacle(Vector3 spawnPos, GameObject obs)
+    {
+        GameObject randomObstacle = Instantiate(obs);
+
+        randomObstacle.transform.parent = groundTransform;
+
+        randomObstacle.transform.position = spawnPos;
+        randomObstacle.transform.rotation = Quaternion.identity;
+
+        return randomObstacle;
+    }
+
+    [PunRPC]
+    GameObject PlaceObstacleServer(Vector3 spawnPos, GameObject obs)
+    {
+        GameObject randomObstacle = Instantiate(obs);
+
+        randomObstacle.transform.parent = groundTransform;
+
+        randomObstacle.transform.position = spawnPos;
+        randomObstacle.transform.rotation = Quaternion.identity;
+
+        return randomObstacle;
     }
 
     Vector3 GetRandomSpawnPosition()
@@ -111,6 +138,7 @@ public class backgroundComponent : MonoBehaviour
                 return true;
             }
         }
+
         return false;
     }
 }
