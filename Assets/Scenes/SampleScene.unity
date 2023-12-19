@@ -579,7 +579,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player1Prebaf: {fileID: 3935655105076865870, guid: dc80a8b035732e348a15b62532f10ee0, type: 3}
-  p1SpawnPoint: {x: -1.725423, y: -2.01, z: 10.1}
+  player2Prebaf: {fileID: 9030775799795015986, guid: 93f1c42c8be35a044ad3bb3108816dbc, type: 3}
+  spawnPoint: {x: -1.725423, y: -2.01, z: 10.1}
 --- !u!4 &511740541
 Transform:
   m_ObjectHideFlags: 0
