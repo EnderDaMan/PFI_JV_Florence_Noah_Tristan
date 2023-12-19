@@ -6,11 +6,23 @@ using Photon.Pun;
 public class SpawnPlayersComponent : MonoBehaviour
 {
     [SerializeField] GameObject player1Prebaf;
+    [SerializeField] GameObject player2Prebaf;
 
-    [SerializeField] Vector3 p1SpawnPoint;
+    [SerializeField] Vector3 spawnPoint;
+
+    bool player1Connected = false;
+    bool player2Connected = false;  
 
     private void Start()
     {
-        PhotonNetwork.Instantiate(player1Prebaf.name, p1SpawnPoint, Quaternion.identity);
+        if(PhotonNetwork.CurrentRoom.PlayerCount == 1)
+        { 
+            PhotonNetwork.Instantiate(player1Prebaf.name, spawnPoint, Quaternion.identity);
+        }
+        if(PhotonNetwork.CurrentRoom.PlayerCount == 2)
+        {
+            PhotonNetwork.Instantiate(player2Prebaf.name, spawnPoint, Quaternion.identity);
+        }
+        
     }
 }

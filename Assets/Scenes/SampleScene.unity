@@ -1002,7 +1002,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6434e4676613cca43bc3e3a5391f28de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player1Prebaf: {fileID: 9030775799795015986, guid: 320e671021f783e48a98c2eef22789cb, type: 3}
+  player1Prebaf: {fileID: 9030775799795015986, guid: 93f1c42c8be35a044ad3bb3108816dbc, type: 3}
   p1SpawnPoint: {x: -1.725423, y: -2.01, z: 10.1}
 --- !u!4 &963631822
 Transform:
