@@ -7,11 +7,17 @@ public class SpawnPlayersComponent : MonoBehaviour
 {
     [SerializeField] GameObject player1Prebaf;
     [SerializeField] GameObject player2Prebaf;
-
+    [SerializeField] GameObject enemyPrefab;
     [SerializeField] Vector3 spawnPoint;
+    [SerializeField] Vector3 spawnPointEnemy;
+
+    float spawnCooldown = 5;
+    float elapsedTime = 0;
 
     private void Start()
     {
+        elapsedTime = Time.deltaTime;
+
         player1Prebaf.layer = 3;
         player2Prebaf.layer = 3;
 
@@ -26,5 +32,16 @@ public class SpawnPlayersComponent : MonoBehaviour
             }
         }
         
+    }
+
+    private void Update()
+    {
+        elapsedTime += Time.deltaTime;
+
+        if(elapsedTime < spawnCooldown)
+        {
+            Instantiate(enemyPrefab, spawnPointEnemy, Quaternion.identity);
+            elapsedTime = 0;
+        }
     }
 }
