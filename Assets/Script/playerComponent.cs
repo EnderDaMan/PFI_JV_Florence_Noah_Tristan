@@ -61,6 +61,8 @@ public class playerMoveComponent : MonoBehaviour
         AttackAction.Disable();
         MoveAction.performed -= (InputAction.CallbackContext context) => direction = context.ReadValue<Vector2>();
         MoveAction.canceled -= _ => direction = Vector2.zero;
+        JumpAction.performed -= _ => Jump();
+        AttackAction.performed -= _ => Attack();
     }
 
     // Update is called once per frame
@@ -82,6 +84,9 @@ public class playerMoveComponent : MonoBehaviour
                 //Animator.StopPlayback();
                 ChangeAnimationState("jump");
                 GetComponent<Rigidbody>().AddForce(Vector2.up * 8f, ForceMode.Impulse);
+                view.RPC("TriggerAnim", RpcTarget.All, "jump");
+                
+                GetComponent<Rigidbody>().AddForce(Vector2.up * 7f, ForceMode.Impulse);
             }
         }
     }
@@ -94,6 +99,7 @@ public class playerMoveComponent : MonoBehaviour
             {
                 Animator.StopPlayback();
                 ChangeAnimationState("Attack", true);
+             view.RPC("TriggerAnim", RpcTarget.All, "Attack");
                 elapsedTime = 0;
                 StartCoroutine(AttackCoroutine());
             }
@@ -102,20 +108,13 @@ public class playerMoveComponent : MonoBehaviour
     }
 
 
-    // private void OnCollisionEnter(Collision collision)
-    // {
-    //     if(view.IsMine)
-    //     {
-    //         if (collision.transform.tag == "Enemy" && isAttacking)
-    //             collision.gameObject.GetComponent<enemyComponent>().GetHit();
-    //     }
-    // }
-
     public void GetHit()
     {
         if (view.IsMine)
         {
             ChangeAnimationState("Hurt", true);
+            view.RPC("TriggerAnim", RpcTarget.All, "Hurt");
+           // view.RPC("TriggerGetHit", RpcTarget.All);
             //Animator.SetTrigger("GetHit");
             health -= 5;
         }
@@ -143,6 +142,7 @@ public class playerMoveComponent : MonoBehaviour
             //Animator.SetBool("IsRunning", false);
            ChangeAnimationState("Idle");
                
+             view.RPC("TriggerAnim", RpcTarget.All, "Idle");
             isOnEdgeLeft = false;
             isOnEdgeRight = false;
         }
@@ -194,5 +194,35 @@ public class playerMoveComponent : MonoBehaviour
         
         if (currentState == originalState)
             ChangeAnimationState(nextState);
+             view.RPC("TriggerAnim", RpcTarget.All, "Run");
+
+        }
+    }
+
+    [PunRPC]
+    private void TriggerJump()
+    {
+        Animator.SetTrigger("Jump");
+    }
+    [PunRPC]
+    private void SetIsRunning(bool isRunning) 
+    {
+        Animator.SetBool("IsRunning", isRunning);
+    }
+    [PunRPC]
+    private void TriggerAttack()
+    {
+        Animator.SetTrigger("Attack");
+    }
+    [PunRPC]
+    private void TriggerGetHit()
+    {
+        Animator.SetTrigger("GetHit");
+    }
+
+    [PunRPC]
+    private void TriggerAnim(string Anim) 
+    {
+        Animator.Play(Anim);
     }
 }
