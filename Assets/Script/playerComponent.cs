@@ -112,8 +112,6 @@ public class playerMoveComponent : MonoBehaviour
         {
             ChangeAnimationState("Hurt", true);
             view.RPC("TriggerAnim", RpcTarget.All, "Hurt");
-           // view.RPC("TriggerGetHit", RpcTarget.All);
-            //Animator.SetTrigger("GetHit");
             health -= 5;
         }
         
