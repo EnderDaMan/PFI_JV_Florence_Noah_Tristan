@@ -16,14 +16,14 @@ public class Trap : MonoBehaviour
     {
         Debug.Log("OUCH");
             if (collision.transform.tag == "Enemy")
-                collision.gameObject.GetComponent<enemyComponent>().health = -1;
+                collision.gameObject.GetComponent<enemyComponent>().Death();
 
     }
     
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.transform.tag == "Enemy")
-            collision.gameObject.GetComponent<enemyComponent>().health = -1;
+            collision.gameObject.GetComponent<enemyComponent>().Death();
 
         if (collision.transform.tag == "Player")
             collision.gameObject.GetComponent<playerMoveComponent>().health = -1;

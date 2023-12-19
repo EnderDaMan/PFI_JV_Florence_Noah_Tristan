@@ -72,20 +72,23 @@ public class enemyComponent : MonoBehaviour
 
         if(health <= 0)
         {
-            int killCount;
-            
-            if (text && skullAnimator)
-            {
-                int.TryParse(text.GetParsedText(), out killCount);
-                killCount++;
-                text.text = killCount.ToString();
-                skullAnimator.SetTrigger("Move");
-            }
-            
-            StartCoroutine(DeathCoroutine());
+            Death();
         }
+    }
 
-
+    public void Death()
+    {
+        int killCount;
+            
+        if (text && skullAnimator)
+        {
+            int.TryParse(text.GetParsedText(), out killCount);
+            killCount++;
+            text.text = killCount.ToString();
+            skullAnimator.SetTrigger("Move");
+        }
+            
+        StartCoroutine(DeathCoroutine());
     }
 
     IEnumerator DeathCoroutine()
