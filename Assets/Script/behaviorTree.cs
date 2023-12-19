@@ -190,7 +190,7 @@ public class IsWithinRange : Node
     public override NodeState Evaluate()
     {
         state = NodeState.Failure;
-        if (Vector3.Distance(self.position, target.position) <= detectionRange)
+        if (target && Vector3.Distance(self.position, target.position) <= detectionRange)
             state = NodeState.Success;
 
         return state;

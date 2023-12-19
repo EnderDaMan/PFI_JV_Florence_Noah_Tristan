@@ -85,8 +85,6 @@ public class playerMoveComponent : MonoBehaviour
                 ChangeAnimationState("jump");
                 GetComponent<Rigidbody>().AddForce(Vector2.up * 8f, ForceMode.Impulse);
                 view.RPC("TriggerAnim", RpcTarget.All, "jump");
-                
-                GetComponent<Rigidbody>().AddForce(Vector2.up * 7f, ForceMode.Impulse);
             }
         }
     }
@@ -165,6 +163,7 @@ public class playerMoveComponent : MonoBehaviour
                 transform.rotation = Quaternion.Euler(0, 180, 0);
             }
             ChangeAnimationState("Run");
+            view.RPC("TriggerAnim", RpcTarget.All, "Run");
         }
     }
 
@@ -191,14 +190,16 @@ public class playerMoveComponent : MonoBehaviour
         yield return new WaitForSeconds(waitTime);
 
         stateOverride = false;
-        
+
         if (currentState == originalState)
+        {
             ChangeAnimationState(nextState);
              view.RPC("TriggerAnim", RpcTarget.All, "Run");
-
         }
-    }
+            
 
+    }
+    
     [PunRPC]
     private void TriggerJump()
     {
@@ -223,6 +224,8 @@ public class playerMoveComponent : MonoBehaviour
     [PunRPC]
     private void TriggerAnim(string Anim) 
     {
+        if (Anim == currentState || stateOverride) return;
+
         Animator.Play(Anim);
     }
 }

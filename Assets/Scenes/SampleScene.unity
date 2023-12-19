@@ -987,6 +987,7 @@ GameObject:
   - component: {fileID: 964043011}
   - component: {fileID: 964043012}
   - component: {fileID: 964043013}
+  - component: {fileID: 964043014}
   m_Layer: 3
   m_Name: Warrior
   m_TagString: Player
@@ -1106,7 +1107,7 @@ Animator:
   m_GameObject: {fileID: 964043004}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c998b54d1d7d65d43893658a1f8aeaa1, type: 2}
+  m_Controller: {fileID: 9100000, guid: 312496b25d842af4a938e96c7d5aaee0, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -6386,6 +6387,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1876522703}
+  - {fileID: 1271524554}
   m_Father: {fileID: 1599002187}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2115523699
