@@ -84,7 +84,7 @@ GameObject:
   - component: {fileID: 799934502234918365}
   - component: {fileID: 5870396702251456741}
   m_Layer: 0
-  m_Name: Warrior
+  m_Name: Warrior2
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -100,7 +100,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.7254235, y: -2.01, z: 10.1}
-  m_LocalScale: {x: 5.3014345, y: 5.3014345, z: 5.3014345}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2399853058460280838}
@@ -116,7 +116,7 @@ Animator:
   m_GameObject: {fileID: 9030775799795015986}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c998b54d1d7d65d43893658a1f8aeaa1, type: 2}
+  m_Controller: {fileID: 9100000, guid: 3c2a5b7097b0fe44394328c0bdb9252e, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -270,7 +270,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: -3318188226485093758, guid: ae72133dacba6ec4eb33ecde48f50e56, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -404,18 +404,45 @@ MonoBehaviour:
   - Type: 9
     SynchronizeType: 0
     Name: Jump
+  - Type: 3
+    SynchronizeType: 0
+    Name: AnimState
   - Type: 9
     SynchronizeType: 0
-    Name: GetHit
+    Name: Attack1
   - Type: 9
     SynchronizeType: 0
-    Name: Attack
+    Name: Attack2
   - Type: 9
     SynchronizeType: 0
-    Name: Idle
+    Name: Attack3
+  - Type: 9
+    SynchronizeType: 0
+    Name: Block
   - Type: 4
     SynchronizeType: 0
-    Name: IsRunning
+    Name: IdleBlock
+  - Type: 9
+    SynchronizeType: 0
+    Name: Hurt
+  - Type: 9
+    SynchronizeType: 0
+    Name: Death
+  - Type: 4
+    SynchronizeType: 0
+    Name: noBlood
+  - Type: 1
+    SynchronizeType: 0
+    Name: AirSpeedY
+  - Type: 4
+    SynchronizeType: 0
+    Name: Grounded
+  - Type: 9
+    SynchronizeType: 0
+    Name: Roll
+  - Type: 4
+    SynchronizeType: 0
+    Name: WallSlide
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
