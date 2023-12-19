@@ -41,7 +41,8 @@ public class enemyComponent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        root.Evaluate();
+        if (root != null)
+            root.Evaluate();
     }
 
     public void GetHit()

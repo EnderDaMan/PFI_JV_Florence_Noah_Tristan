@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ExitGames.Client.Photon.StructWrapping;
 using UnityEngine;
 
 public class Trap : MonoBehaviour
@@ -21,9 +22,11 @@ public class Trap : MonoBehaviour
     
     private void OnTriggerEnter(Collider collision)
     {
-        Debug.Log("OUCH");
         if (collision.transform.tag == "Enemy")
             collision.gameObject.GetComponent<enemyComponent>().health = -1;
+
+        if (collision.transform.tag == "Player")
+            collision.gameObject.GetComponent<playerMoveComponent>().health = -1;
     }
 
     // Update is called once per frame

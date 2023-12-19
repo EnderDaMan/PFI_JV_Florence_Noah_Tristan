@@ -13,7 +13,7 @@ public class playerMoveComponent : MonoBehaviour
     [SerializeField] InputAction JumpAction;
     [SerializeField] InputAction AttackAction;
     [SerializeField] float speed = 5;
-    [SerializeField] float health = 100;
+    [SerializeField] public float health = 100;
     Animator Animator;
 
     public Vector2 direction = Vector2.zero;
@@ -68,7 +68,13 @@ public class playerMoveComponent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (view.IsMine)
+        if (health <= 0)
+        {
+            view.RPC("TriggerAnim", RpcTarget.All, "Death");
+            currentState = "Death";
+            Animator.Play("Death");
+        }
+        else if (view.IsMine)
         {
             Move();
         }
@@ -116,6 +122,7 @@ public class playerMoveComponent : MonoBehaviour
         }
         
     }
+    
 
     IEnumerator AttackCoroutine()
     {

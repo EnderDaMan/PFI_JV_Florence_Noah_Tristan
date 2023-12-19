@@ -7,23 +7,32 @@ public class backgroundComponent : MonoBehaviour
     [SerializeField] public float speed = 5f;
     [SerializeField] public List<GameObject> Obstacles;
 
-    private Transform groundTransform; // Reference to the Ground transform
-    private List<GameObject> spawnedObstacles = new List<GameObject>(); // Keep track of spawned obstacles
+    private Transform groundTransform;
+    private List<GameObject> spawnedObstacles = new List<GameObject>();
+
+    private float timePassed;
+    private float timeSinceSpeedInc = 10;
 
     private void Start()
     {
-        // Assuming the Ground is a child of the backgroundComponent
         if (transform.Find("Grid"))
             groundTransform = transform.Find("Grid").Find("Ground");
-        
-        if (groundTransform == null)
-        {
-            Debug.LogError("Ground not found as a child of backgroundComponent!");
-        }
     }
 
     void Update()
     {
+        timePassed += Time.deltaTime;
+        timeSinceSpeedInc -= Time.deltaTime;
+
+        if (timeSinceSpeedInc <= 0)
+        {
+            speed += .1f;
+            if (timePassed >= 120)
+                speed += 1f;
+
+            timeSinceSpeedInc = 10;
+        }
+
         transform.Translate(Vector2.left * speed * Time.deltaTime);
 
         if (transform.name == "Graveyard" && transform.position.x <= -17.95f)
@@ -35,6 +44,8 @@ public class backgroundComponent : MonoBehaviour
         if (transform.name == "Ground" && transform.position.x <= -19.90f)
             TeleportAndSpawn("Ground", 19.90f);
     }
+
+    float minDistanceBetweenObstacles = 2.0f;
 
     void TeleportAndSpawn(string tilemapName, float tilemapWidth)
     {
@@ -50,26 +61,50 @@ public class backgroundComponent : MonoBehaviour
         // Randomly spawn new obstacles
         if (tilemapName == "Ground" && Obstacles.Count > 0)
         {
-            int randomIndex = Random.Range(0, Obstacles.Count);
-            GameObject randomObstacle = Instantiate(Obstacles[randomIndex]);
-            
-            randomObstacle.transform.parent = groundTransform;
+            int maxObstacles = Mathf.Min(Mathf.FloorToInt(timePassed / 30f) + 1, 4); // Max obstacles per chunk, gradually increasing
+            int obstacleCount = Random.Range(1, maxObstacles + 1); // Random variation
 
-            randomObstacle.transform.position = GetRandomSpawnPosition();
-            randomObstacle.transform.rotation = Quaternion.identity;
+            for (int i = 0; i < obstacleCount; i++)
+            {
+                int randomIndex = Random.Range(0, Obstacles.Count);
+                GameObject randomObstacle = Instantiate(Obstacles[randomIndex]);
 
-            // Add the spawned obstacle to the list
-            spawnedObstacles.Add(randomObstacle);
+                randomObstacle.transform.parent = groundTransform;
+
+                // Randomize spawn position with minimum distance constraint
+                Vector3 spawnPosition = GetRandomSpawnPosition();
+                while (IsTooCloseToOtherObstacles(spawnPosition))
+                {
+                    spawnPosition = GetRandomSpawnPosition();
+                }
+
+                randomObstacle.transform.position = spawnPosition;
+                randomObstacle.transform.rotation = Quaternion.identity;
+
+                // Add the spawned obstacle to the list
+                spawnedObstacles.Add(randomObstacle);
+            }
         }
     }
 
     Vector3 GetRandomSpawnPosition()
     {
-        // Adjust the range of spawn positions based on your requirements
         float spawnX = Random.Range(transform.position.x, transform.position.x + 10f);
         float spawnY = -2;
         float spawnZ = 0;
 
         return new Vector3(spawnX, spawnY, spawnZ);
+    }
+
+    bool IsTooCloseToOtherObstacles(Vector3 position)
+    {
+        foreach (var obstacle in spawnedObstacles)
+        {
+            if (Vector3.Distance(position, obstacle.transform.position) < minDistanceBetweenObstacles)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

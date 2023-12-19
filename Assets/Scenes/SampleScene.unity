@@ -869,8 +869,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player1Prebaf: {fileID: 9030775799795015986, guid: 320e671021f783e48a98c2eef22789cb, type: 3}
-  player2Prebaf: {fileID: 0}
-  spawnPoint: {x: 0, y: 0, z: 0}
+  player2Prebaf: {fileID: 9030775799795015986, guid: 93f1c42c8be35a044ad3bb3108816dbc, type: 3}
+  spawnPoint: {x: -1.725423, y: -2, z: 10}
 --- !u!4 &963631822
 Transform:
   m_ObjectHideFlags: 0
@@ -2724,7 +2724,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 32
+  m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!195 &1595552040
 NavMeshAgent:
@@ -2797,7 +2797,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 2
   Obstacles:
+  - {fileID: 7333521169347111697, guid: 163edb65efdc6464c8733865fcbfc5ba, type: 3}
   - {fileID: 3405381426040465413, guid: c4dd90d7808328c44bbf8e9b517ba6ab, type: 3}
+  - {fileID: 3405381426040465413, guid: 7422ab8f60bec2542a189a096f7eba6c, type: 3}
 --- !u!1 &1691795434
 GameObject:
   m_ObjectHideFlags: 0
@@ -4439,7 +4441,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 96
+  m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!1 &1960738134
 GameObject:
@@ -4867,7 +4869,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 2
   Obstacles:
+  - {fileID: 7333521169347111697, guid: 163edb65efdc6464c8733865fcbfc5ba, type: 3}
   - {fileID: 3405381426040465413, guid: c4dd90d7808328c44bbf8e9b517ba6ab, type: 3}
+  - {fileID: 3405381426040465413, guid: 7422ab8f60bec2542a189a096f7eba6c, type: 3}
 --- !u!1 &2065280869
 GameObject:
   m_ObjectHideFlags: 0
