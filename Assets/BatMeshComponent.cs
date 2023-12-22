@@ -87,7 +87,7 @@ public class PaperGenerationComponent : MonoBehaviour
         {
             for (int i = 0; i < vertices.Length; i++)
             {
-                float waveOffset = Mathf.Sin(Time.time * 2f + i) * 0.1f;
+                float waveOffset = Mathf.Sin(Time.time * 3f + i) * 0.1f;
                 vertices[i] = new Vector3(vertices[i].x, vertices[i].y, waveOffset);
             }
 
