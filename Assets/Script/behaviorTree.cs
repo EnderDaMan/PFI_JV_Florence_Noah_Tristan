@@ -128,11 +128,13 @@ public class GoToTarget : Node
 {
     Transform target;
     NavMeshAgent agent;
-
-    public GoToTarget(Transform target, NavMeshAgent agent)
+    private enemyAnimationComponent enemyAnimationComponent;
+    
+    public GoToTarget(Transform target, NavMeshAgent agent, enemyAnimationComponent enemyAnimationComponent)
     {
         this.target = target;
         this.agent = agent;
+        this.enemyAnimationComponent = enemyAnimationComponent;
     }
 
     public override NodeState Evaluate()
@@ -141,6 +143,7 @@ public class GoToTarget : Node
         if (agent.transform.position.x > target.position.x && playerComponent.isOnEdgeRight ||
             agent.transform.position.x < target.position.x && playerComponent.isOnEdgeLeft)
         {
+            enemyAnimationComponent.Walk();
             agent.destination = target.position;
             agent.speed = 2.5f;
         }

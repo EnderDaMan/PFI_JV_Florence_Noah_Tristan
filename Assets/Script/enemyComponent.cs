@@ -43,7 +43,7 @@ public class enemyComponent : MonoBehaviour
             return;
         
         Node l1 = new IsWithinRange(target, transform, detectionRange);
-        Node l2 = new GoToTarget(target, agent);
+        Node l2 = new GoToTarget(target, agent, enemyAnimationComponent);
         Node seq1 = new Sequence(new List<Node>() { l1, l2 });
         Node l3 = new Attack(target, enemyAnimationComponent);
         Node sel2 = new Sequence(new List<Node>() { seq1, l3 });
