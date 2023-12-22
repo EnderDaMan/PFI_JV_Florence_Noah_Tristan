@@ -8,6 +8,7 @@ TagManager:
   - Bullet
   - skull
   - killcount
+  - Trap
   layers:
   - Default
   - TransparentFX

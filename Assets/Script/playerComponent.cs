@@ -128,7 +128,12 @@ public class playerMoveComponent : MonoBehaviour
             health -= dmg;
         }
     }
-    
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.transform.tag == "Trap")
+            GetHit();
+    }
 
     IEnumerator AttackCoroutine()
     {
